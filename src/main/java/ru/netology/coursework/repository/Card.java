@@ -1,53 +1,82 @@
 package ru.netology.coursework.repository;
 
 public final class Card {
-    String bank_name;
-    String nameUser;
-    String lastNameUser;
-    int numberCard;
-    int date;
-    int cvc;
-    Double balance;
+    String cardFromNumber;
+    String cardFromValidTill;
+    String cardFromCVV;
+    String cardToNumber;
+    Amount amount;
 
-    public Card(String bank_name, String nameUser, String lastNameUser, int numberCard, int date, int cvc, Double balance) {
-        this.bank_name = bank_name;
-        this.nameUser = nameUser;
-        this.lastNameUser = lastNameUser;
-        this.numberCard = numberCard;
-        this.date = date;
-        this.cvc = cvc;
-        this.balance = balance;
+    public Card(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Amount amount) {
+        this.cardFromNumber = cardFromNumber;
+        this.cardFromValidTill = cardFromValidTill;
+        this.cardFromCVV = cardFromCVV;
+        this.cardToNumber = cardToNumber;
+        this.amount = amount;
     }
 
-    public String getBank_name() {
-        return bank_name;
+    public Card(String cardFromNumber, String cardFromValidTill, String cardFromCVV, Amount amount) {
+        this.cardFromNumber = cardFromNumber;
+        this.cardFromValidTill = cardFromValidTill;
+        this.cardFromCVV = cardFromCVV;
+        this.amount = amount;
     }
 
-    public String getNameUser() {
-        return nameUser;
+    public String getCardFromNumber() {
+        return cardFromNumber;
     }
 
-    public String getLastNameUser() {
-        return lastNameUser;
+    public void setCardFromNumber(String cardFromNumber) {
+        this.cardFromNumber = cardFromNumber;
     }
 
-    public int getNumberCard() {
-        return numberCard;
+    public String getCardFromValidTill() {
+        return cardFromValidTill;
     }
 
-    public int getDate() {
-        return date;
+    public void setCardFromValidTill(String cardFromValidTill) {
+        this.cardFromValidTill = cardFromValidTill;
     }
 
-    public int getCvc() {
-        return cvc;
+    public String getCardFromCVV() {
+        return cardFromCVV;
     }
 
-    public Double getBalance() {
-        return balance;
+    public void setCardFromCVV(String cardFromCVV) {
+        this.cardFromCVV = cardFromCVV;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public Amount getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Amount amount) {
+        this.amount = amount;
+    }
+
+    public static class Amount {
+        Integer value;
+        String currency;
+
+        public Amount(Integer value, String currency) {
+            this.value = value;
+            this.currency = currency;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
     }
 }

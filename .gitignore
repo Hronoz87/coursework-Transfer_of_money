@@ -1,13 +1,6 @@
 HELP.md
 .gradle
-gradle
-gradlew
-gradlew.bat
-settings.gradle
-build.gradle
-
 build/
-!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
