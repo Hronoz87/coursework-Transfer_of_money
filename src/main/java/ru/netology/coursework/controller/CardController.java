@@ -8,8 +8,6 @@ import ru.netology.coursework.exciption.ErrorInputData;
 import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.service.CardService;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 @RestController
 @RequestMapping("/")
 public class CardController {
@@ -22,12 +20,8 @@ public class CardController {
     }
 
     @PostMapping("/transfer")
-    public CopyOnWriteArrayList<Card> transferCardToCard(@RequestParam("cardFromNumber") String cardFromNumber,
-                                                         @RequestParam("cardFromValidTill") String cardFromValidTill,
-                                                         @RequestParam("cardFromCVV") String cardFromCVV,
-                                                         @RequestParam("cardToNumber") String cardToNumber,
-                                                         @RequestParam("amount") Card.Amount amount) {
-        return cardService.transferCardToCard(cardFromNumber, cardFromValidTill, cardFromCVV, cardToNumber, amount);
+    public String transferCardToCard(@RequestBody String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Card.Amount amount, Card card){
+        return cardService.operationId();
     }
 
     @ExceptionHandler(ErrorInputData.class)

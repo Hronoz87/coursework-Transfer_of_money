@@ -46,6 +46,14 @@ public final class Card {
         this.cardFromCVV = cardFromCVV;
     }
 
+    public String getCardToNumber() {
+        return cardToNumber;
+    }
+
+    public void setCardToNumber(String cardToNumber) {
+        this.cardToNumber = cardToNumber;
+    }
+
     public Amount getAmount() {
         return amount;
     }

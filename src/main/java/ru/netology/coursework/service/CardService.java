@@ -5,21 +5,31 @@ import org.springframework.stereotype.Service;
 import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.repository.CardRepository;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
 @Service
 public class CardService {
 
     private final CardRepository cardRepository;
-    AtomicInteger id = new AtomicInteger();
+    String id;
 
     @Autowired
     public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
-    public CopyOnWriteArrayList<Card> transferCardToCard(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Card.Amount amount) {
-        return null;
+    public String transferCardToCard(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Card.Amount amount, Card card) {
+        if ((cardFromNumber.equals(card.getCardFromNumber()) &&
+                (cardFromValidTill.equals(card.getCardFromValidTill())) &&
+                (cardFromCVV.equals(card.getCardFromCVV())) &&
+                (cardToNumber.equals(card.getCardToNumber())))) {
+            if (amount.getValue() > amount.getValue()) {
+                System.out.println("нет необходимой суммы");
+            }
+
+        }
+        return id;
+    }
+
+    public String operationId() {
+        return id;
     }
 }
