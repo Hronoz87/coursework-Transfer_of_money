@@ -5,14 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.netology.coursework.exciption.ErrorInputData;
-import ru.netology.coursework.repository.Card;
+import ru.netology.coursework.service.CardFormDTO;
 import ru.netology.coursework.service.CardService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/")
 public class CardController {
 
-    private final CardService cardService;
+    public final CardService cardService;
 
     @Autowired
     public CardController(CardService cardService) {
@@ -20,8 +22,9 @@ public class CardController {
     }
 
     @PostMapping("/transfer")
-    public String transferCardToCard(@RequestBody String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Card.Amount amount, Card card){
-        return cardService.operationId();
+    @ResponseBody
+    public String transfer(@Valid @RequestBody CardFormDTO cardFormDTO) {
+       return cardService.operationId();
     }
 
     @ExceptionHandler(ErrorInputData.class)

@@ -1,11 +1,14 @@
 package ru.netology.coursework.repository;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 public final class Card {
-    String cardFromNumber;
-    String cardFromValidTill;
-    String cardFromCVV;
-    String cardToNumber;
-    Amount amount;
+    private String cardFromNumber;
+    private String cardFromValidTill;
+    private String cardFromCVV;
+    private String cardToNumber;
+    private Amount amount;
 
     public Card(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Amount amount) {
         this.cardFromNumber = cardFromNumber;
@@ -15,11 +18,16 @@ public final class Card {
         this.amount = amount;
     }
 
+    @Autowired
     public Card(String cardFromNumber, String cardFromValidTill, String cardFromCVV, Amount amount) {
         this.cardFromNumber = cardFromNumber;
         this.cardFromValidTill = cardFromValidTill;
         this.cardFromCVV = cardFromCVV;
         this.amount = amount;
+    }
+
+    public Card() {
+
     }
 
     public String getCardFromNumber() {
