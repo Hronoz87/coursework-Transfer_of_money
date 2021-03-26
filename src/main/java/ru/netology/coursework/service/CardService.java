@@ -41,19 +41,18 @@ public class CardService {
 
 
     public void holdMoney() {
-        String varificationCode = String.valueOf(UUID.randomUUID());
+        String verificationCode = String.valueOf(UUID.randomUUID());
         String operationId = String.valueOf(UUID.randomUUID());
-        cardRepository.repositoryCodeAndId.put(operationId, varificationCode);
+        cardRepository.repositoryCodeAndId.put(operationId, verificationCode);
     }
 
     public String operationId() {
+        TransferResponse transferResponse = new TransferResponse();
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
-            TransferResponse transferResponse = new TransferResponse();
-            transferResponse.operationId = entry.getKey();
-            return transferResponse.operationId;
-
-
+            transferResponse.setVarificationCode(entry.getValue());
+            transferResponse.setOperationId(entry.getKey());
+            return transferResponse.getVarificationCode();
         }
-        return operationId();
+        return transferResponse.getOperationId();
     }
 }
