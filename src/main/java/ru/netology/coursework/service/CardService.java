@@ -5,9 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.repository.CardRepository;
 
-import javax.annotation.PostConstruct;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CardService {
@@ -19,45 +18,42 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-    @PostConstruct
-    public CardFormDTO convertCardFormDTO(Card card) {
-        CardFormDTO cardFormDTO = new CardFormDTO();
-        cardFormDTO.setCardFromNumber(card.getCardFromNumber());
-        cardFormDTO.setCardFromValidTill(card.getCardFromValidTill());
-        cardFormDTO.setCardFromCVV(card.getCardFromCVV());
-        cardFormDTO.setCardToNumber(card.getCardToNumber());
-        cardFormDTO.setAmount(card.getAmount());
-        return cardFormDTO;
-    }
-
-    @PostConstruct
-    public String transferCardToCard(CopyOnWriteArrayList<Card> cards, CardFormDTO cardFormDTO) {
-        for (Card card : cards) {
+    public String transferCardToCard(CardFormDTO cardFormDTO) {
+        for (Card card : cardRepository.cards) {
             if (cardFormDTO.getCardFromNumber().equals(card.getCardFromNumber()) &&
                     cardFormDTO.getCardFromValidTill().equals(card.getCardFromValidTill()) &&
                     cardFormDTO.getCardFromCVV().equals(card.getCardFromCVV()) &&
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
-                Integer amount = cardFormDTO.getAmount().getValue();
                 Integer amountCard = card.getAmount().getValue();
-                if(amount > amountCard) {
-                    System.out.println("Не достаточно стредств");
-                } else {
-                    Integer temp = amountCard - (amount - (amount / 100));
+                Integer amount = cardFormDTO.getAmount().getValue();
+                if (amountCard > amount) {
+                    Integer temp = amountCard - (amount + (amount / 100));
+                    holdMoney();
                     card.getAmount().setValue(temp);
-                    Integer temp1 = amountCard + amount;
-                    cardFormDTO.getAmount().setValue(temp1);
+                } else {
+                    throw new IllegalStateException("Not enough money to perform operation");
                 }
             }
-
-
+            throw new IllegalStateException("Card is not found or has wrong requisites");
         }
         return operationId();
     }
 
 
-    public String operationId() {
-        Random id1 = new Random();
-        return String.valueOf(id1);
+    public void holdMoney() {
+        String varificationCode = String.valueOf(UUID.randomUUID());
+        String operationId = String.valueOf(UUID.randomUUID());
+        cardRepository.repositoryCodeAndId.put(operationId, varificationCode);
     }
 
+    public String operationId() {
+        for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
+            TransferResponse transferResponse = new TransferResponse();
+            transferResponse.operationId = entry.getKey();
+            return transferResponse.operationId;
+
+
+        }
+        return operationId();
+    }
 }

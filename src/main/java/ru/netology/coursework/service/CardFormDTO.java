@@ -25,7 +25,6 @@ public class CardFormDTO {
         this.amount = amount;
     }
 
-
     public CardFormDTO() {
 
     }
