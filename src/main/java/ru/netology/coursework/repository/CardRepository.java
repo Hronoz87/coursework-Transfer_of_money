@@ -13,7 +13,7 @@ public class CardRepository {
     public CopyOnWriteArrayList<Card> cards = new CopyOnWriteArrayList<>();
     public ConcurrentMap<String, String> repositoryCodeAndId = new ConcurrentHashMap<>();
 
-    Card card1 = new Card("1112111111111111", "1022", "100", new Card.Amount(1500, "rub"));
+    Card card1 = new Card("1112111111111111", "1022", "100", "1211111111111111", new Card.Amount(1500, "rub"));
     Card card2 = new Card("1211111111111111", "1022", "110", new Card.Amount(500, "rub"));
     Card card3 = new Card("1112111111111111", "1022", "101", new Card.Amount(700, "rub"));
     Card card4 = new Card("1113111111111111", "1022", "102", new Card.Amount(2500, "rub"));

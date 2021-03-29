@@ -19,40 +19,51 @@ public class CardService {
     }
 
     public String transferCardToCard(CardFormDTO cardFormDTO) {
+        TransferResponse transferResponse = new TransferResponse();
         for (Card card : cardRepository.cards) {
+            Integer amountCard = card.getAmount().getValue();
+            Integer amount = cardFormDTO.getAmount().getValue();
             if (cardFormDTO.getCardFromNumber().equals(card.getCardFromNumber()) &&
                     cardFormDTO.getCardFromValidTill().equals(card.getCardFromValidTill()) &&
                     cardFormDTO.getCardFromCVV().equals(card.getCardFromCVV()) &&
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
-                Integer amountCard = card.getAmount().getValue();
-                Integer amount = cardFormDTO.getAmount().getValue();
                 if (amountCard > amount) {
                     Integer temp = amountCard - (amount + (amount / 100));
-                    holdMoney();
+                    transferResponse.operationId = String.valueOf(Math.round(Math.random()*1000));
+                    transferResponse.varificationCode = String.valueOf(Math.round(Math.random()*1000));
+                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, transferResponse.varificationCode);
                     card.getAmount().setValue(temp);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
                 }
+                return transferResponse.getOperationId();
             }
-            throw new IllegalStateException("Card is not found or has wrong requisites");
         }
-        return operationId();
+          throw new IllegalStateException("Card is not found or has wrong requisites");
     }
 
 
-    public void holdMoney() {
-        String verificationCode = String.valueOf(UUID.randomUUID());
-        String operationId = String.valueOf(UUID.randomUUID());
-        cardRepository.repositoryCodeAndId.put(operationId, verificationCode);
-    }
+//    public String holdMoney() {
+//        TransferResponse transferResponse = new TransferResponse();
+//        transferResponse.operationId = String.valueOf(UUID.randomUUID());
+//        transferResponse.varificationCode = String.valueOf(UUID.randomUUID());
+//        cardRepository.repositoryCodeAndId.put(transferResponse.operationId, transferResponse.varificationCode);
+//        return transferResponse.operationId;
+//    }
 
     public String operationId() {
         TransferResponse transferResponse = new TransferResponse();
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
-            transferResponse.setVarificationCode(entry.getValue());
-            transferResponse.setOperationId(entry.getKey());
-            return transferResponse.getVarificationCode();
+           if(transferResponse.getOperationId().equals(entry.getKey()) && transferResponse.getVarificationCode().equals(entry.getValue())) {
+              transferResponse.operationId = entry.getKey();
+              transferResponse.varificationCode = entry.getValue();
+              return transferResponse.getOperationId();
+           } else {
+               throw new IllegalStateException(" Error input data");
+           }
+
+        } throw new IllegalStateException(" Error confirmation");
         }
-        return transferResponse.getOperationId();
-    }
+
+
 }

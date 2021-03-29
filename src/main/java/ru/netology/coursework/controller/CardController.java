@@ -31,7 +31,7 @@ public class CardController {
 
     @PostMapping("/confirmOperation")
     public String confirmOperation(@Valid @RequestBody TransferResponse transferResponse) {
-        return transferResponse.getOperationId();
+        return cardService.operationId();
     }
 
 //    @ExceptionHandler(ErrorInputData.class)
