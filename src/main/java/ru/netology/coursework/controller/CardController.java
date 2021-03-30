@@ -1,10 +1,7 @@
 package ru.netology.coursework.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.netology.coursework.exciption.ErrorInputData;
 import ru.netology.coursework.service.CardFormDTO;
 import ru.netology.coursework.service.CardService;
 import ru.netology.coursework.service.TransferResponse;
@@ -25,12 +22,12 @@ public class CardController {
 
     @PostMapping("/transfer")
     @ResponseBody
-    public String transfer(@Valid @RequestBody CardFormDTO cardFormDTO) {
+    public TransferResponse transfer(@Valid @RequestBody CardFormDTO cardFormDTO) {
        return cardService.transferCardToCard(cardFormDTO);
     }
 
     @PostMapping("/confirmOperation")
-    public String confirmOperation(@Valid @RequestBody TransferResponse transferResponse) {
+    public TransferResponse confirmOperation(@Valid @RequestBody TransferResponse transferResponse) {
         return cardService.operationId();
     }
 

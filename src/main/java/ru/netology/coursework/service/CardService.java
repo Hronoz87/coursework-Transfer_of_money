@@ -6,7 +6,6 @@ import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.repository.CardRepository;
 
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class CardService {
@@ -18,7 +17,7 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-    public String transferCardToCard(CardFormDTO cardFormDTO) {
+    public TransferResponse transferCardToCard(CardFormDTO cardFormDTO) {
         TransferResponse transferResponse = new TransferResponse();
         for (Card card : cardRepository.cards) {
             Integer amountCard = card.getAmount().getValue();
@@ -36,7 +35,7 @@ public class CardService {
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
                 }
-                return transferResponse.getOperationId();
+                return transferResponse;
             }
         }
           throw new IllegalStateException("Card is not found or has wrong requisites");
@@ -51,13 +50,13 @@ public class CardService {
 //        return transferResponse.operationId;
 //    }
 
-    public String operationId() {
+    public TransferResponse operationId() {
         TransferResponse transferResponse = new TransferResponse();
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
            if(transferResponse.getOperationId().equals(entry.getKey()) && transferResponse.getVarificationCode().equals(entry.getValue())) {
               transferResponse.operationId = entry.getKey();
               transferResponse.varificationCode = entry.getValue();
-              return transferResponse.getOperationId();
+              return transferResponse;
            } else {
                throw new IllegalStateException(" Error input data");
            }
