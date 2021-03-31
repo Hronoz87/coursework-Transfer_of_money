@@ -28,9 +28,9 @@ public class CardService {
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
                 if (amountCard > amount) {
                     Integer temp = amountCard - (amount + (amount / 100));
-                    transferResponse.operationId = String.valueOf(Math.round(Math.random()*1000));
-                    transferResponse.varificationCode = String.valueOf(Math.round(Math.random()*1000));
-                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, transferResponse.varificationCode);
+                    transferResponse.operationId = String.valueOf(Math.round(Math.random() * 1000));
+                    String verificationCode = String.valueOf(Math.round(Math.random() * 1000));
+                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, verificationCode);
                     card.getAmount().setValue(temp);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
@@ -38,31 +38,23 @@ public class CardService {
                 return transferResponse;
             }
         }
-          throw new IllegalStateException("Card is not found or has wrong requisites");
+        throw new IllegalStateException("Card is not found or has wrong requisites");
     }
 
 
-//    public String holdMoney() {
-//        TransferResponse transferResponse = new TransferResponse();
-//        transferResponse.operationId = String.valueOf(UUID.randomUUID());
-//        transferResponse.varificationCode = String.valueOf(UUID.randomUUID());
-//        cardRepository.repositoryCodeAndId.put(transferResponse.operationId, transferResponse.varificationCode);
-//        return transferResponse.operationId;
-//    }
-
-    public TransferResponse operationId() {
-        TransferResponse transferResponse = new TransferResponse();
+    public String operationId(ConfirmOperationDTO confirmOperationDTO) {
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
-           if(transferResponse.getOperationId().equals(entry.getKey()) && transferResponse.getVarificationCode().equals(entry.getValue())) {
-              transferResponse.operationId = entry.getKey();
-              transferResponse.varificationCode = entry.getValue();
-              return transferResponse;
-           } else {
-               throw new IllegalStateException(" Error input data");
-           }
+            confirmOperationDTO.setOperationId(entry.getKey());
+            confirmOperationDTO.setVerificationCode(entry.getValue());
+            if (confirmOperationDTO.getOperationId().equals(entry.getKey()) && confirmOperationDTO.getVerificationCode().equals(entry.getValue())) {
+                return confirmOperationDTO.operationId;
+            } else {
+                throw new IllegalStateException(" Error input data");
+            }
 
-        } throw new IllegalStateException(" Error confirmation");
         }
+        throw new IllegalStateException(" Error confirmation");
+    }
 
 
 }

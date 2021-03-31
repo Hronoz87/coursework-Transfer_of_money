@@ -16,19 +16,6 @@ public class CardFormDTO {
 
     Card.Amount amount;
 
-
-    public CardFormDTO(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, Card.Amount amount) {
-        this.cardFromNumber = cardFromNumber;
-        this.cardFromValidTill = cardFromValidTill;
-        this.cardFromCVV = cardFromCVV;
-        this.cardToNumber = cardToNumber;
-        this.amount = amount;
-    }
-
-    public CardFormDTO() {
-
-    }
-
     public String getCardFromNumber() {
         return cardFromNumber;
     }
