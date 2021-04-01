@@ -32,7 +32,7 @@ public class CardController {
 
     @PostMapping("/confirmOperation")
     public ResponseEntity<TransferResponse> confirmOperation(@Valid @RequestBody ConfirmOperationDTO confirmOperationDTO) {
-        String operationId = cardService.operationId(confirmOperationDTO);
+        String operationId = cardService.confirmOperation(confirmOperationDTO);
         System.out.println("Операция прошла успешно");
         return new ResponseEntity<>(new TransferResponse(operationId), HttpStatus.OK);
     }

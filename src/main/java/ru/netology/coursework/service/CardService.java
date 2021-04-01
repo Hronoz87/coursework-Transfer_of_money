@@ -42,10 +42,8 @@ public class CardService {
     }
 
 
-    public String operationId(ConfirmOperationDTO confirmOperationDTO) {
+    public String confirmOperation(ConfirmOperationDTO confirmOperationDTO) {
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
-            confirmOperationDTO.setOperationId(entry.getKey());
-            confirmOperationDTO.setVerificationCode(entry.getValue());
             if (confirmOperationDTO.getOperationId().equals(entry.getKey()) && confirmOperationDTO.getVerificationCode().equals(entry.getValue())) {
                 return confirmOperationDTO.operationId;
             } else {
