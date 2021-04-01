@@ -5,15 +5,15 @@ import ru.netology.coursework.repository.Card;
 import javax.validation.constraints.NotNull;
 
 public class CardFormDTO {
-
+    @NotNull
     String cardFromNumber;
-
+    @NotNull
     String cardFromValidTill;
-
+    @NotNull
     String cardFromCVV;
-
+    @NotNull
     String cardToNumber;
-
+    @NotNull
     Card.Amount amount;
 
     public String getCardFromNumber() {

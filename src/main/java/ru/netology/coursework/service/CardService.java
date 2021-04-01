@@ -44,12 +44,13 @@ public class CardService {
 
     public String confirmOperation(ConfirmOperationDTO confirmOperationDTO) {
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
+            confirmOperationDTO.setOperationId(confirmOperationDTO.operationId);
+            confirmOperationDTO.setVerificationCode(confirmOperationDTO.verificationCode);
             if (confirmOperationDTO.getOperationId().equals(entry.getKey()) && confirmOperationDTO.getVerificationCode().equals(entry.getValue())) {
-                return confirmOperationDTO.operationId;
+                return confirmOperationDTO.getOperationId();
             } else {
                 throw new IllegalStateException(" Error input data");
             }
-
         }
         throw new IllegalStateException(" Error confirmation");
     }

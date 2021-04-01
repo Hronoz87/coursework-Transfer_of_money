@@ -26,7 +26,7 @@ public class CardController {
     @PostMapping("/transfer")
     @ResponseBody
     public ResponseEntity<TransferResponse> transfer(@Valid @RequestBody CardFormDTO cardFormDTO) {
-        System.out.println("Подтвердите код");
+        System.out.println("Подтвердите операцию");
         return  new ResponseEntity<>(cardService.transferCardToCard(cardFormDTO), HttpStatus.OK);
     }
 
