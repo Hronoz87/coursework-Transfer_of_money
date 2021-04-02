@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.repository.CardRepository;
 
+
 import java.util.Map;
 
 @Service
@@ -28,31 +29,34 @@ public class CardService {
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
                 if (amountCard > amount) {
                     Integer temp = amountCard - (amount + (amount / 100));
-                    transferResponse.operationId = String.valueOf(Math.round(Math.random() * 1000));
+                    transferResponse.setOperationId(String.valueOf(Math.round(Math.random() * 1000)));
                     String verificationCode = String.valueOf(Math.round(Math.random() * 1000));
                     cardRepository.repositoryCodeAndId.put(transferResponse.operationId, verificationCode);
                     card.getAmount().setValue(temp);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
                 }
-                return transferResponse;
+
             }
+            return transferResponse;
         }
         throw new IllegalStateException("Card is not found or has wrong requisites");
+
     }
 
 
     public String confirmOperation(ConfirmOperationDTO confirmOperationDTO) {
         for (Map.Entry<String, String> entry : cardRepository.repositoryCodeAndId.entrySet()) {
+            String code = "0000";
             confirmOperationDTO.setOperationId(confirmOperationDTO.operationId);
-            confirmOperationDTO.setVerificationCode(confirmOperationDTO.verificationCode);
-            if (confirmOperationDTO.getOperationId().equals(entry.getKey()) && confirmOperationDTO.getVerificationCode().equals(entry.getValue())) {
-                return confirmOperationDTO.getOperationId();
-            } else {
+            confirmOperationDTO.setVerificationCode(code);
+            if (!confirmOperationDTO.getOperationId().equals(entry.getKey()) && !confirmOperationDTO.getVerificationCode().equals(code)) {
                 throw new IllegalStateException(" Error input data");
+            } else {
+                throw new IllegalStateException(" Error confirmation");
             }
         }
-        throw new IllegalStateException(" Error confirmation");
+        return confirmOperationDTO.getOperationId();
     }
 
 
