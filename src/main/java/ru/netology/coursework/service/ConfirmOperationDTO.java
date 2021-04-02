@@ -2,11 +2,11 @@ package ru.netology.coursework.service;
 
 public class ConfirmOperationDTO {
     public String operationId;
-    public String verificationCode;
+    public String code;
 
-    public ConfirmOperationDTO(String operationId, String verificationCode) {
+    public ConfirmOperationDTO(String operationId, String code) {
         this.operationId = operationId;
-        this.verificationCode = verificationCode;
+        this.code = code;
     }
 
     public ConfirmOperationDTO() {
@@ -22,18 +22,18 @@ public class ConfirmOperationDTO {
     }
 
     public String getVerificationCode() {
-        return verificationCode;
+        return code;
     }
 
     public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
+        this.code = verificationCode;
     }
 
     @Override
     public String toString() {
         return "ConfirmOperationDTO{" +
                 "operationId='" + operationId + '\'' +
-                ", verificationCode='" + verificationCode + '\'' +
+                ", verificationCode='" + code + '\'' +
                 '}';
     }
 }

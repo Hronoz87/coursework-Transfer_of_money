@@ -30,8 +30,8 @@ public class CardService {
                 if (amountCard > amount) {
                     Integer temp = amountCard - (amount + (amount / 100));
                     transferResponse.setOperationId(String.valueOf(Math.round(Math.random() * 1000)));
-                    String verificationCode = String.valueOf(Math.round(Math.random() * 1000));
-                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, verificationCode);
+                    String code = String.valueOf(Math.round(Math.random() * 1000));
+                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, code);
                     card.getAmount().setValue(temp);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
