@@ -19,7 +19,10 @@ public class CardService {
     }
 
     public TransferResponse transferCardToCard(CardFormDTO cardFormDTO) {
-        TransferResponse transferResponse = new TransferResponse();
+        String operationId = String.valueOf(Math.round(Math.random() * 1000));
+        TransferResponse transferResponse = new TransferResponse(operationId);
+        String code = String.valueOf(Math.round(Math.random() * 1000));
+        cardRepository.repositoryCodeAndId.put(transferResponse.getOperationId(), code);
         for (Card card : cardRepository.cards) {
             Integer amountCard = card.getAmount().getValue();
             Integer amount = cardFormDTO.getAmount().getValue();
@@ -29,9 +32,6 @@ public class CardService {
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
                 if (amountCard > amount) {
                     Integer temp = amountCard - (amount + (amount / 100));
-                    transferResponse.setOperationId(String.valueOf(Math.round(Math.random() * 1000)));
-                    String code = String.valueOf(Math.round(Math.random() * 1000));
-                    cardRepository.repositoryCodeAndId.put(transferResponse.operationId, code);
                     card.getAmount().setValue(temp);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
@@ -50,13 +50,13 @@ public class CardService {
             String code = "0000";
             confirmOperationDTO.setOperationId(confirmOperationDTO.operationId);
             confirmOperationDTO.setVerificationCode(code);
-            if (!confirmOperationDTO.getOperationId().equals(entry.getKey()) && !confirmOperationDTO.getVerificationCode().equals(code)) {
-                throw new IllegalStateException(" Error input data");
+            if (confirmOperationDTO.getOperationId().equals(entry.getKey()) && confirmOperationDTO.getVerificationCode().equals(code)) {
+                return confirmOperationDTO.getOperationId();
             } else {
-                throw new IllegalStateException(" Error confirmation");
+                throw new IllegalStateException(" Error input data");
             }
         }
-        return confirmOperationDTO.getOperationId();
+        throw new IllegalStateException(" Error confirmation");
     }
 
 

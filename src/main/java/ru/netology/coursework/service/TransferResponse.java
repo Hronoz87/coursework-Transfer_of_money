@@ -9,9 +9,6 @@ public class TransferResponse {
         this.operationId = operationId;
     }
 
-    public TransferResponse() {
-
-    }
 
     public String getOperationId() {
         return operationId;
