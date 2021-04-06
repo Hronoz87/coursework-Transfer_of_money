@@ -1,0 +1,2 @@
+Время транзакции:Tue Apr 06 14:19:53 MSK 2021: Файл fileOperatiosLogs.log успешно создан
+Operation id = 823, cardFromNumber = '1112111111111111', cardToNumber = '1211111111111111', amount = Amount{value=1200, currency='rub'}, date = Tue Apr 06 14:19:53 MSK 2021

@@ -6,6 +6,7 @@ import ru.netology.coursework.repository.Card;
 import ru.netology.coursework.repository.CardRepository;
 
 
+import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -19,6 +20,7 @@ public class CardService {
     }
 
     public TransferResponse transferCardToCard(CardFormDTO cardFormDTO) {
+
         String operationId = String.valueOf(Math.round(Math.random() * 1000));
         TransferResponse transferResponse = new TransferResponse(operationId);
         String code = String.valueOf(Math.round(Math.random() * 1000));
@@ -31,8 +33,10 @@ public class CardService {
                     cardFormDTO.getCardFromCVV().equals(card.getCardFromCVV()) &&
                     cardFormDTO.getCardToNumber().equals(card.getCardToNumber())) {
                 if (amountCard > amount) {
+                    TransferLog transferLog = new TransferLog(cardFormDTO.getCardFromNumber(), cardFormDTO.getCardToNumber(), cardFormDTO.getAmount(), new Date());
                     Integer temp = amountCard - (amount + (amount / 100));
                     card.getAmount().setValue(temp);
+                    transferLog.writeLog(transferLog, operationId);
                 } else {
                     throw new IllegalStateException("Not enough money to perform operation");
                 }
